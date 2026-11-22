@@ -1,0 +1,12 @@
+__pycache__/
+*.py[cod]
+.venv/
+.runtime/
+runtime/
+receipts/
+snapshots/
+*.sqlite3*
+*.log
+*.tmp
+.env
+dist/

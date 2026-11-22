@@ -1,0 +1,4 @@
+interface:
+  display_name: "微信文件助手后台发送"
+  short_description: "纯后台发送本地文件到微信文件传输助手，保留回执并跨线程防重复"
+  default_prompt: "请使用 $wechat-filehelper-background 将我指定的文件后台发送到微信文件传输助手。"
