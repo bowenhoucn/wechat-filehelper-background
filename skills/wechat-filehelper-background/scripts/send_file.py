@@ -272,7 +272,10 @@ def main():
         print(json.dumps(result, ensure_ascii=False, indent=2))
         return 2 if result.get("status") in {"needs_reconciliation", "failed_before_dispatch"} else 0
     except Exception as exc:
-        print(json.dumps({"status": "blocked_before_dispatch", "error": str(exc)}, ensure_ascii=False))
+        result = {"status": "blocked_before_dispatch", "error": str(exc)}
+        if getattr(exc, "details", None):
+            result["compatibility"] = exc.details
+        print(json.dumps(result, ensure_ascii=False))
         return 1
 
 

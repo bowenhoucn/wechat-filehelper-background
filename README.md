@@ -2,19 +2,21 @@
 
 将用户指定的本地文件自动提交到已登录微信的“文件传输助手”，不激活窗口、不点击、不模拟键盘、不使用 ClawBot。保留回执，并通过本机共享账本防止多个 Codex 线程重复发送。
 
+**v0.2.0 维护状态：**修复原依赖仓库 404 造成的新安装失败，随包提供完整且带哈希的接口源码、原生组件及依赖；新增离线安装、缺文件修复和准确版本诊断。微信 **4.2.0.53 的 7 个附件接口已补齐静态候选，但新版原生探测和文件发送尚未验收，暂不启用**。不要把本维护版理解为已经恢复新版微信的文件发送。
+
 ## 安装到 Codex
 
 把以下文字发送给另一个 Codex：
 
-> 请使用 skill-installer 从 https://github.com/bowenhoucn/wechat-filehelper-background 安装 `skills/wechat-filehelper-background`。安装后读取 SKILL.md，按说明准备后台运行时。发送时我会提供具体文件路径。
+> 请使用 skill-installer 从 https://github.com/bowenhoucn/wechat-filehelper-background 安装 `skills/wechat-filehelper-background`，版本 `v0.2.0`。若已安装，先备份旧 skill 文件夹，再安装新版；不要删除 `%LOCALAPPDATA%\CodexWeChatFileHelper` 的账本和回执。读取 SKILL.md 并运行 bootstrap，发送时我会提供文件路径。
 
 或用 Codex 自带安装脚本：
 
 ```powershell
-python "$env:USERPROFILE\.codex\skills\.system\skill-installer\scripts\install-skill-from-github.py" --repo bowenhoucn/wechat-filehelper-background --path skills/wechat-filehelper-background
+python "$env:USERPROFILE\.codex\skills\.system\skill-installer\scripts\install-skill-from-github.py" --repo bowenhoucn/wechat-filehelper-background --path skills/wechat-filehelper-background --ref v0.2.0
 ```
 
-安装后重新加载技能/开启新对话（按所用 Codex 客户端的技能发现机制）。首次安装运行时需要访问 GitHub 和 PyPI。实际执行脚本需要 Windows x64、Python 3.10+、Git、pip，以及已经登录的桌面微信。当前验证并放行微信 **4.1.15.56 的指定核心文件指纹**；不保证所有微信版本兼容。
+安装后下一轮使用新版技能。下载 skill 需要访问 GitHub；之后的运行时安装完全离线，不再需要 Git 或访问 PyPI。实际执行需要 Windows x64、Python 3.10+（含 pip）及已登录的桌面微信。当前完整验证并放行的仍为 **4.1.15.56 指定核心指纹**。4.2.0.53 会准确报告待完成的原生验收，不误报未登录、不自动降级。
 
 ## 使用
 
@@ -50,4 +52,4 @@ python -m unittest discover -s tests -v
 
 ## 许可与来源
 
-本仓库独立封装采用 MIT 许可。[原生上游 helper](https://github.com/Prometheus-first/helper) 固定提交 `bdbe97d4e3213fb6c85dee2339aba326d03612b4`，采用**非商业许可**；bootstrap 保留其许可与第三方声明，封装许可不替代上游许可。仓库不包含用户文档、账号、发送记录、凭据或原生二进制。
+本仓库独立封装采用 MIT 许可。原生上游 helper 固定提交 `bdbe97d4e3213fb6c85dee2339aba326d03612b4` 采用**非商业许可**；原仓库已返回 404，`assets` 中原样归档保留了完整许可和第三方声明，封装许可不替代上游许可。归档包含原生源码及二进制，详见 [第三方声明](skills/wechat-filehelper-background/assets/NOTICE.md)。仓库不包含用户文档、账号、发送记录、凭据或微信客户端 DLL。

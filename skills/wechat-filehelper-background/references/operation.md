@@ -2,14 +2,25 @@
 
 ## 固定依赖
 
-- 原生实现：[Prometheus-first/helper](https://github.com/Prometheus-first/helper)。固定提交 `bdbe97d4e3213fb6c85dee2339aba326d03612b4`。
+- 原生实现：Prometheus-first/helper，固定提交 `bdbe97d4e3213fb6c85dee2339aba326d03612b4`。原仓库 2026-11-22 返回 404；v0.2.0 改用随包原样归档，不再依赖该地址完成安装。
 - 核心调用：`native/run_selftest.py` 中 `run("--dispatch", target="filehelper", file_path=..., account=..., bridge_path=TEXT_DLL)`。附件探测加 `file_probe=True`，不发送消息。
 - 上游二进制：`native/build_text/text_bridge.dll`。SHA256 `20b5ba37ac00b1b26a9ac13b82ae80e48f59cf61eb486dff947840c70923c936`。
 - 本 skill 实测允许的微信核心：4.1.15.56，204305968 字节，SHA256 `e0428a7b691853de496532523c2c09aa095f90941c37c9f4cfb3f137f3c66556`。上游列出的其他版本不自动构成本 skill 已验证范围。
-- 运行时路径：`%LOCALAPPDATA%\CodexWeChatFileHelper\runtime\<固定提交>`。`runtime-lock.json` 校验上游 Python 源码、配置、组件和许可文件；`requirements.lock` 固定 `pefile` wheel 哈希。每次加载前验证所需文件。
-- Git 与 pip 子进程均隐藏、无交互启动，不运行上游完整机器人服务、Web 面板或监听服务。
+- 运行时路径：`%LOCALAPPDATA%\CodexWeChatFileHelper\runtime\<固定提交>`。`runtime-lock.json` 校验归档及其中 131 个文件（包含接口源码和原生组件）；`requirements.lock` 固定随包 `pefile` wheel 哈希。每次加载前验证所需文件。
+- 默认 bootstrap 直接解压本地归档并用 pip `--no-index` 安装随包依赖，不调用 Git。可选的本地源码恢复也必须匹配归档哈希。所有辅助进程隐藏、无交互，不运行上游机器人服务、Web 面板或监听服务。
+- 完整运行时原样复用；缺文件/哈希错误则先准备并校验新副本，将旧运行时保存在 `runtime-quarantine/<唯一ID>` 后替换，失败时回滚。账本、回执、快照目录不参与替换。不要通过清空数据目录修复接口。
 
-上游是非商业许可，允许个人学习、研究、测试及非商业自用，不自动授权商业产品或营利服务。准确条款以 [固定提交 LICENSE](https://github.com/Prometheus-first/helper/blob/bdbe97d4e3213fb6c85dee2339aba326d03612b4/LICENSE) 为准。此仓库只提供独立封装，bootstrap 从上游取得原组件并保留其 LICENSE 和 THIRD_PARTY_NOTICES。封装的 MIT 许可不覆盖上游组件。
+上游是非商业许可，允许个人学习、研究、测试及非商业自用，不自动授权商业产品或营利服务。准确条款保存在 `assets/helper-bdbe97d4-runtime.zip` 根目录 LICENSE，安装后同样存在于运行时目录，连同 THIRD_PARTY_NOTICES 保留。封装的 MIT 许可不覆盖上游组件，具体归档来源见 [assets/NOTICE.md](../assets/NOTICE.md)。
+
+## 4.2.0.53 维护结果（2026-11-22）
+
+本次本机实际文件版本是 4.2.0.53；用户口头版本不能替代可执行文件版本和核心 SHA256。腾讯签名验证通过，核心哈希为 `ac6b174d98ee1b69e95c99a7a39c3197c8c167b7c6d32f5b72c7a7659c104825`。
+
+[dsh-world 的原生发送实现](https://github.com/chenkezhen480/dsh-world/tree/3ed75924f8e9914c37911699e0bf0c13629a4c79/src/ecosystem/wechat/windows) 提供该指纹的文字/图片相关映射，不能替代普通附件构造。搜索到的 wechatauto-replica 新版发送走 UIA/OCR，不符合本 skill 的不操作窗口要求，未采用。原 helper 的公开保留副本 [wx-helper-SafeFork](https://github.com/CaptainUnhappy/wx-helper-SafeFork) 版本表仍未覆盖 .53。
+
+本次对腾讯签名 DLL 做静态反汇编，定位到 7 个附件候选接口：临时目录、建目录、随机文件名、路径拼接、普通附件消息构造、消息虚表、宽字符串释放。多个文件类型 `0x600000031` 写入点共同指向候选工厂，路径/名称/大小/目标字段与旧布局一致。候选 RVA、函数字节哈希和证据位置保存在 [candidate-4.2.0.53.json](candidate-4.2.0.53.json)。这是静态研究证据，不是运行成功证明。
+
+当前仍缺：MSVC ABI 兼容组件的编译和源代码复核、不发送的原生附件探测及安全卸载、一次用户授权文件的真实回执。本机没有检测到 MSVC 编译工具；微软工具链清单查询未完成，未安装或更改系统工具链。因此 **.53 没有加入发送白名单，本版没有新增真实发送**。不要把接口位置齐全写成“新版已兼容”。
 
 ## 结论分层
 
@@ -42,7 +53,7 @@ python "<skill>/scripts/send_file.py" import-receipt --receipt "C:\历史\filehe
 
 2026-11-21 的原先同一原生入口已完成一次真实 28 页 PDF 提交：395292 字节，原生返回成功，附件副本哈希一致，组件卸载成功；未独立验证服务器最终收件。此信息只证明特定版本和该次附件提交。
 
-通用封装的自动化测试使用替身适配器，不会真实向微信发测试文件；测试包含跨路径同内容去重、账号隔离、明确重发、调用异常、进程骤停、并发锁、哈希拒绝、快照不可写、探测失败，以及本地回执保留。只读 `doctor` 验证真实环境兼容，不能替代通用封装的真实发送验收。
+通用封装的发送测试使用替身适配器，不会向微信发测试文件；另有实际断网安装、缺文件修复和历史保留测试。发送测试覆盖跨路径同内容去重、账号隔离、明确重发、调用异常、进程骤停、并发锁、哈希拒绝、快照不可写、探测失败。只读 `doctor` 验证环境状态，不能替代真实发送验收。
 
 ## 命令退出码
 

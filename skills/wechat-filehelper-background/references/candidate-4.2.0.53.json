@@ -1,0 +1,127 @@
+{
+  "status": "static_mapping_complete_not_native_validated",
+  "checked_at": "2026-11-22",
+  "purpose": "Read-only desktop compatibility diagnostics; does not authorize native injection",
+  "profile": {
+    "version": "4.2.0.53",
+    "size": 204154920,
+    "sha256": "ac6b174d98ee1b69e95c99a7a39c3197c8c167b7c6d32f5b72c7a7659c104825",
+    "timestamp": 1794391333,
+    "imageSize": 204644352,
+    "addresses": {
+      "application": 130192,
+      "scheduler": 135824,
+      "schedule": 3027776,
+      "context": 135584,
+      "provider": 3495456,
+      "manager": 7349200,
+      "text": 91194704,
+      "image": 65044640,
+      "emoticon": null,
+      "copyWide": 606352,
+      "validateGif": null,
+      "probeGif": null,
+      "releaseProbe": null,
+      "send": 24513408,
+      "allocate": 125211420,
+      "free": 125211488,
+      "accountRoot": 196523912,
+      "contextVtable": 151833784,
+      "emoticonVtable": null
+    }
+  },
+  "source": {
+    "repo": "https://github.com/chenkezhen480/dsh-world",
+    "commit": "696e6f2e79eb22053fa4ed54356ca82d0a7f0a0f",
+    "path": "src/ecosystem/wechat/windows/engine/profiles.json",
+    "sha256": "527dab76d1eac4de451d53be6d69c34f4243ea34f2f42a5fba38a279f1a0e5db",
+    "latest_checked_commit": "3ed75924f8e9914c37911699e0bf0c13629a4c79"
+  },
+  "attachment_supported": false,
+  "unmapped_attachment_interfaces": [],
+  "required_before_enable": [
+    "Verify file-message object layout and all file-specific addresses for this exact core",
+    "Build a hash-locked file-only bridge",
+    "Run non-sending file probe with clean unload",
+    "Send the explicitly requested PDF once and preserve acknowledgement"
+  ],
+  "user_route": "reuse logged-in desktop account; no QR/web/UI fallback",
+  "static_attachment_candidates": {
+    "input_temp_directory": {
+      "rva": "0x231e4a0",
+      "function_bytes": 143,
+      "bytes_sha256": "bebc8ab2bc8d7e6b119dff59d913b01f472322c5cc2cebbd8b68d083166e5a9a",
+      "validation": "static_only_not_executed"
+    },
+    "ensure_directory": {
+      "rva": "0x372f50",
+      "function_bytes": 135,
+      "bytes_sha256": "c8919307e4557807257068ec073fd677ad6fc6d84114c8a04437e46d08ebd678",
+      "validation": "static_only_not_executed"
+    },
+    "unique_filename_token": {
+      "rva": "0x57f0f0",
+      "function_bytes": 337,
+      "bytes_sha256": "ccde06111da96d0d6ee02de4d207cc6c85cbabb4f23acb798e8a4cf4d9f9b8ce",
+      "validation": "static_only_not_executed"
+    },
+    "join_path": {
+      "rva": "0x98070",
+      "function_bytes": 174,
+      "bytes_sha256": "b0657e2b7ae96a7deba65b6c693aa07a1b4963b90a81f300a93034a248eca778",
+      "validation": "static_only_not_executed"
+    },
+    "ordinary_file_message_factory": {
+      "rva": "0x2c2e100",
+      "function_bytes": 302,
+      "bytes_sha256": "50e86a9cd0fd539ed5f01ad60ae5ff8642f9419f90ffd114935c6a705866df0b",
+      "validation": "static_only_not_executed"
+    },
+    "ordinary_file_message_vtable": {
+      "rva": "0x9126618",
+      "first_four_function_rvas": [
+        "0x7766a0",
+        "0x775b80",
+        "0x775b90",
+        "0x16a30"
+      ],
+      "bytes_sha256": "81bdfba2a0e8d032b1f2cd982b0c6ca5ab5d1634c2c3a9414319b602ed539d90",
+      "validation": "static_only_not_executed"
+    },
+    "wide_string_destructor": {
+      "rva": "0x7800",
+      "function_bytes": 84,
+      "bytes_sha256": "549e1ac1852e378ff9db145c6e26ef689296161649d6ebbc1719b1da90548d32",
+      "validation": "static_only_not_executed"
+    }
+  },
+  "pending_validation": [
+    "Build source-reviewed MSVC-compatible bridge for this fingerprint",
+    "Pass non-sending attachment probe and clean unload",
+    "Obtain one explicitly authorized file submission receipt"
+  ],
+  "layout_candidates": {
+    "message_type": "0x118",
+    "path": "0x120",
+    "filename": "0x1a8",
+    "bytes": "0x1c8",
+    "target": "0xb0"
+  },
+  "static_evidence": {
+    "core_authenticode": "Valid / Tencent Technology (Shenzhen) Company Limited",
+    "analysis_date": "2026-11-22",
+    "image_factory_rva": "0x3e080a0",
+    "ordinary_file_constructor_rva": "0x775700",
+    "ordinary_file_type_write_sites": [
+      "0x2c2c882",
+      "0x363bcb3",
+      "0x3997bb6",
+      "0x49344e5",
+      "0x57cd055",
+      "0x57d0d99",
+      "0x5fde14d",
+      "0x6163b25"
+    ],
+    "note": "Static candidates only. No new native component was compiled, injected, or enabled."
+  }
+}

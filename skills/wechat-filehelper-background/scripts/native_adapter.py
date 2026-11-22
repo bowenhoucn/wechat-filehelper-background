@@ -4,6 +4,7 @@ from pathlib import Path
 import sys
 
 from common import LOCK, require_windows, sha256, verify_runtime
+from compatibility import CompatibilityError, classify_core
 
 
 class NativeAdapter:
@@ -18,24 +19,33 @@ class NativeAdapter:
         # Check the exact core before reading version-dependent account offsets.
         candidates = []
         unsupported = []
+        fingerprints = {}
         for pid in wechat_candidates():
             try:
                 loaded = modules(pid)
                 core = loaded.get("weixin.dll")
                 if not core:
                     continue
+                core_path = str(Path(core[1]).resolve())
+                if core_path not in fingerprints:
+                    fingerprints[core_path] = sha256(core_path)
+                digest = fingerprints[core_path]
                 profile = next((p for p in LOCK["validated_cores"]
-                                if Path(core[1]).stat().st_size == p["size"]
-                                and sha256(core[1]) == p["sha256"]), None)
+                                if Path(core_path).stat().st_size == p["size"]
+                                and digest == p["sha256"]), None)
                 if not profile:
-                    unsupported.append(pid)
+                    unsupported.append({"pid": pid, **classify_core(core_path, digest)})
                     continue
                 account = inspect_account(pid)
                 if account:
                     candidates.append((pid, account, profile))
             except OSError:
                 continue
-        if len(candidates) != 1 or unsupported:
+        if unsupported:
+            raise CompatibilityError({"unsupported_cores": unsupported,
+                "compatible_account_count": len(candidates), "native_injection_attempted": False,
+                "native_send_called": False, "route": "logged_in_desktop_only"})
+        if len(candidates) != 1:
             raise RuntimeError(f"Need one compatible logged-in account; compatible={len(candidates)}, unsupported={len(unsupported)}")
         self.pid, self.account, profile = candidates[0]
         self.identity = {"account_sha256": hashlib.sha256(self.account.encode()).hexdigest(),
