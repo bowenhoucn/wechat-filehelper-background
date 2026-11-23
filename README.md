@@ -6,6 +6,8 @@
 
 ## 安装到 Codex
 
+完整可复制版本见 **[发给 Codex 的安装／更新提示词（v0.3.0）](docs/install-update-prompt-zh-CN.md)**，包含保留发送记录、纯后台发送和防重复要求。
+
 把以下文字发送给另一个 Codex：
 
 > 请使用 skill-installer 从 https://github.com/bowenhoucn/wechat-filehelper-background 安装 `skills/wechat-filehelper-background`，版本 `v0.3.0`。若已安装，先备份旧 skill 文件夹，再安装新版；不要删除 `%LOCALAPPDATA%\CodexWeChatFileHelper` 的账本和回执。读取 SKILL.md 并运行 bootstrap，发送时我会提供文件路径。
