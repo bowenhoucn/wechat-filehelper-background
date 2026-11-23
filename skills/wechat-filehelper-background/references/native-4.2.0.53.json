@@ -1,0 +1,32 @@
+{
+  "core": {
+    "wechat_version": "4.2.0.53",
+    "size": 204154920,
+    "sha256": "ac6b174d98ee1b69e95c99a7a39c3197c8c167b7c6d32f5b72c7a7659c104825",
+    "adapter": "native_42053"
+  },
+  "binary": "assets/filehelper_42053_bridge.dll",
+  "binary_sha256": "3733668a40b8582535d73446a33968dd7adccc6877c039b475839df2f2f98dd2",
+  "sources": {
+    "native/filehelper_42053.cpp": "b0e7192dbb92e456dc943c7d925dec5923dc6ece703e6394947823e7952b3412",
+    "native/core_42053.h": "b57aeb70e7a4384b70c49a109d65beee0351af7103b539da754f695b65dfd9b7",
+    "native/build.py": "d3d18e0b9ff73e39c82d34f4d3ef85deda2d8654caaf475b21b1bdc8e05b40f1"
+  },
+  "compiler": "Microsoft C/C++ 19.44.35230 x64",
+  "windows_sdk": "10.0.22621.0",
+  "runtime_linkage": "static /MT",
+  "validation": "native_probe_and_submission_accepted",
+  "exports": [
+    "WxFileDiagnostics",
+    "WxFileReport",
+    "WxInspectFilePath",
+    "WxNativeExecutionSlots",
+    "WxRemoveSelfTest",
+    "WxSendFile"
+  ],
+  "imports": [
+    "bcrypt.dll",
+    "KERNEL32.dll"
+  ],
+  "evidence": "validation-4.2.0.53.json"
+}

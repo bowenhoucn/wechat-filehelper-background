@@ -1,0 +1,42 @@
+{
+  "scope": "One new PDF submitted to filehelper on the exact core fingerprint; no UI interaction",
+  "observed_at_utc": "2026-11-23T02:24:34.801284+00:00",
+  "status": "native_submission_accepted",
+  "bytes": 758,
+  "probe": {
+    "passed": true,
+    "stage": 73,
+    "sent": false,
+    "native_status": 0,
+    "exception": 0,
+    "dll_unloaded": true
+  },
+  "submission": {
+    "passed": true,
+    "stage": 75,
+    "sent": true,
+    "message_type": 49,
+    "app_type": 6,
+    "native_status": 0,
+    "native_status_high": 0,
+    "exception": 0,
+    "dll_unloaded": true
+  },
+  "staged_copy_sha256_verified": true,
+  "server_upload_completion_independently_verified": false,
+  "old_documents_resent": false,
+  "prior_probe_failures": {
+    "count": 2,
+    "send_called": false,
+    "cause": "Native callback reached file-probe success but CRT receipt fopen returned ENOENT; changed to memory publication plus host persistence"
+  },
+  "raw_receipts": "Retained locally; excluded from repository to protect account and path information",
+  "production_entry_doctor": "ready",
+  "repeat_same_content": "duplicate_blocked",
+  "new_native_submissions": 1,
+  "offline_regression_tests": {
+    "passed": 34,
+    "failed": 0
+  },
+  "lf_normalized_rebuild_sha256_identical": true
+}

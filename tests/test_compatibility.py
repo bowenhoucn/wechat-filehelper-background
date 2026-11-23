@@ -64,4 +64,26 @@ class CompatibilityTests(unittest.TestCase):
         dispatch.assert_not_called()
         self.assertFalse(ctx.exception.details['native_send_called'])
 
+    def test_validated_new_core_routes_to_file_adapter_without_old_dispatch(self):
+        old_inspect,old_dispatch=Mock(),Mock()
+        new=Mock()
+        new.identity={'account_sha256':'a'*64,'wechat_version':'4.2.0.53'}
+        profile={'size':9,'sha256':'validated','wechat_version':'4.2.0.53','adapter':'native_42053'}
+        helpers=SimpleNamespace(TEXT_DLL=self.root/'old.dll',modules=lambda _: {'weixin.dll':(0,str(self.core))},
+                                run=old_dispatch,wechat_candidates=lambda:[123])
+        with patch('native_adapter.require_windows'),patch('native_adapter.verify_runtime',return_value=(self.root,self.root)), \
+             patch('native_adapter.LOCK',{'validated_cores':[profile],'commit':'locked'}), \
+             patch('native_adapter.sha256',return_value='validated'), \
+             patch('native_42053.inspect_account',return_value='current-account'), \
+             patch('native_42053.Adapter42053',return_value=new) as factory, \
+             patch.dict(sys.modules,{'run_selftest':helpers,'text_service':SimpleNamespace(inspect_account=old_inspect)}):
+            adapter=NativeAdapter(self.root)
+            adapter.check()
+            adapter.dispatch(self.core,probe=True)
+        factory.assert_called_once_with(self.root,123)
+        new.check.assert_called_once_with()
+        new.dispatch.assert_called_once_with(self.core,probe=True)
+        old_inspect.assert_not_called()
+        old_dispatch.assert_not_called()
+
 if __name__=='__main__': unittest.main()

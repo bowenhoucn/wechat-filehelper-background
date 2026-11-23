@@ -1,7 +1,7 @@
 {
-  "status": "static_mapping_complete_not_native_validated",
+  "status": "native_file_submission_validated_for_exact_core",
   "checked_at": "2026-11-22",
-  "purpose": "Read-only desktop compatibility diagnostics; does not authorize native injection",
+  "purpose": "Historical static mapping and provenance; executable permission remains controlled by runtime-lock.json and native bridge integrity checks",
   "profile": {
     "version": "4.2.0.53",
     "size": 204154920,
@@ -37,45 +37,39 @@
     "sha256": "527dab76d1eac4de451d53be6d69c34f4243ea34f2f42a5fba38a279f1a0e5db",
     "latest_checked_commit": "3ed75924f8e9914c37911699e0bf0c13629a4c79"
   },
-  "attachment_supported": false,
+  "attachment_supported": true,
   "unmapped_attachment_interfaces": [],
-  "required_before_enable": [
-    "Verify file-message object layout and all file-specific addresses for this exact core",
-    "Build a hash-locked file-only bridge",
-    "Run non-sending file probe with clean unload",
-    "Send the explicitly requested PDF once and preserve acknowledgement"
-  ],
   "user_route": "reuse logged-in desktop account; no QR/web/UI fallback",
   "static_attachment_candidates": {
     "input_temp_directory": {
       "rva": "0x231e4a0",
       "function_bytes": 143,
       "bytes_sha256": "bebc8ab2bc8d7e6b119dff59d913b01f472322c5cc2cebbd8b68d083166e5a9a",
-      "validation": "static_only_not_executed"
+      "validation": "statically_mapped_then_exercised_in_native_file_validation"
     },
     "ensure_directory": {
       "rva": "0x372f50",
       "function_bytes": 135,
       "bytes_sha256": "c8919307e4557807257068ec073fd677ad6fc6d84114c8a04437e46d08ebd678",
-      "validation": "static_only_not_executed"
+      "validation": "statically_mapped_then_exercised_in_native_file_validation"
     },
     "unique_filename_token": {
       "rva": "0x57f0f0",
       "function_bytes": 337,
       "bytes_sha256": "ccde06111da96d0d6ee02de4d207cc6c85cbabb4f23acb798e8a4cf4d9f9b8ce",
-      "validation": "static_only_not_executed"
+      "validation": "statically_mapped_then_exercised_in_native_file_validation"
     },
     "join_path": {
       "rva": "0x98070",
       "function_bytes": 174,
       "bytes_sha256": "b0657e2b7ae96a7deba65b6c693aa07a1b4963b90a81f300a93034a248eca778",
-      "validation": "static_only_not_executed"
+      "validation": "statically_mapped_then_exercised_in_native_file_validation"
     },
     "ordinary_file_message_factory": {
       "rva": "0x2c2e100",
       "function_bytes": 302,
       "bytes_sha256": "50e86a9cd0fd539ed5f01ad60ae5ff8642f9419f90ffd114935c6a705866df0b",
-      "validation": "static_only_not_executed"
+      "validation": "statically_mapped_then_exercised_in_native_file_validation"
     },
     "ordinary_file_message_vtable": {
       "rva": "0x9126618",
@@ -86,20 +80,16 @@
         "0x16a30"
       ],
       "bytes_sha256": "81bdfba2a0e8d032b1f2cd982b0c6ca5ab5d1634c2c3a9414319b602ed539d90",
-      "validation": "static_only_not_executed"
+      "validation": "statically_mapped_then_exercised_in_native_file_validation"
     },
     "wide_string_destructor": {
       "rva": "0x7800",
       "function_bytes": 84,
       "bytes_sha256": "549e1ac1852e378ff9db145c6e26ef689296161649d6ebbc1719b1da90548d32",
-      "validation": "static_only_not_executed"
+      "validation": "statically_mapped_then_exercised_in_native_file_validation"
     }
   },
-  "pending_validation": [
-    "Build source-reviewed MSVC-compatible bridge for this fingerprint",
-    "Pass non-sending attachment probe and clean unload",
-    "Obtain one explicitly authorized file submission receipt"
-  ],
+  "pending_validation": [],
   "layout_candidates": {
     "message_type": "0x118",
     "path": "0x120",
@@ -123,5 +113,12 @@
       "0x6163b25"
     ],
     "note": "Static candidates only. No new native component was compiled, injected, or enabled."
-  }
+  },
+  "completed_enable_conditions": [
+    "Verify file-message object layout and all file-specific addresses for this exact core",
+    "Build a hash-locked file-only bridge",
+    "Run non-sending file probe with clean unload",
+    "Send the explicitly requested PDF once and preserve acknowledgement"
+  ],
+  "native_validation_evidence": "validation-4.2.0.53.json"
 }

@@ -2,21 +2,21 @@
 
 将用户指定的本地文件自动提交到已登录微信的“文件传输助手”，不激活窗口、不点击、不模拟键盘、不使用 ClawBot。保留回执，并通过本机共享账本防止多个 Codex 线程重复发送。
 
-**v0.2.0 维护状态：**修复原依赖仓库 404 造成的新安装失败，随包提供完整且带哈希的接口源码、原生组件及依赖；新增离线安装、缺文件修复和准确版本诊断。微信 **4.2.0.53 的 7 个附件接口已补齐静态候选，但新版原生探测和文件发送尚未验收，暂不启用**。不要把本维护版理解为已经恢复新版微信的文件发送。
+**v0.3.0：微信 4.2.0.53 后台附件适配已通过真实验证。**新文件组件已编译并随包提供，完成不发送探测、一次 758 字节新 PDF 的原生提交及安全卸载；重复调用被共享账本拦截，旧文档未重发。回执由宿主读取并保存，避免依赖微信进程写外部回执路径。此结论不等于独立确认服务器上传或手机端收件。[脱敏验证证据](skills/wechat-filehelper-background/references/validation-4.2.0.53.json)
 
 ## 安装到 Codex
 
 把以下文字发送给另一个 Codex：
 
-> 请使用 skill-installer 从 https://github.com/bowenhoucn/wechat-filehelper-background 安装 `skills/wechat-filehelper-background`，版本 `v0.2.0`。若已安装，先备份旧 skill 文件夹，再安装新版；不要删除 `%LOCALAPPDATA%\CodexWeChatFileHelper` 的账本和回执。读取 SKILL.md 并运行 bootstrap，发送时我会提供文件路径。
+> 请使用 skill-installer 从 https://github.com/bowenhoucn/wechat-filehelper-background 安装 `skills/wechat-filehelper-background`，版本 `v0.3.0`。若已安装，先备份旧 skill 文件夹，再安装新版；不要删除 `%LOCALAPPDATA%\CodexWeChatFileHelper` 的账本和回执。读取 SKILL.md 并运行 bootstrap，发送时我会提供文件路径。
 
 或用 Codex 自带安装脚本：
 
 ```powershell
-python "$env:USERPROFILE\.codex\skills\.system\skill-installer\scripts\install-skill-from-github.py" --repo bowenhoucn/wechat-filehelper-background --path skills/wechat-filehelper-background --ref v0.2.0
+python "$env:USERPROFILE\.codex\skills\.system\skill-installer\scripts\install-skill-from-github.py" --repo bowenhoucn/wechat-filehelper-background --path skills/wechat-filehelper-background --ref v0.3.0
 ```
 
-安装后下一轮使用新版技能。下载 skill 需要访问 GitHub；之后的运行时安装完全离线，不再需要 Git 或访问 PyPI。实际执行需要 Windows x64、Python 3.10+（含 pip）及已登录的桌面微信。当前完整验证并放行的仍为 **4.1.15.56 指定核心指纹**。4.2.0.53 会准确报告待完成的原生验收，不误报未登录、不自动降级。
+安装后下一轮使用新版技能。下载 skill 需要访问 GitHub；之后的运行时安装完全离线，不再需要 Git 或访问 PyPI，也无需本机安装编译器。实际执行需要 Windows x64、Python 3.10+（含 pip）及已登录的桌面微信。支持 **4.1.15.56 和 4.2.0.53 的指定核心指纹**；版本号相同但指纹不同也会拒绝。v0.2.0 的离线依赖、缺文件修复和旧版通道保留，不误报未登录、不自动降级。
 
 ## 使用
 
